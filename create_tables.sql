@@ -111,3 +111,22 @@ CREATE TRIGGER trigger_check_room_capacity
 BEFORE INSERT OR UPDATE ON schedule
 FOR EACH ROW
 EXECUTE FUNCTION check_room_capacity();
+CREATE TABLE IF NOT EXISTS student_profiles (
+    student_id VARCHAR(36) PRIMARY KEY REFERENCES students(id) ON DELETE CASCADE,
+    date_of_birth DATE,
+    address VARCHAR(500)
+);
+CREATE OR REPLACE FUNCTION get_active_students_count(p_course_level INT)
+RETURNS INT
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    student_count INT;
+BEGIN
+    SELECT COUNT(*) INTO student_count 
+    FROM students 
+    WHERE active = TRUE AND course = p_course_level;
+    
+    RETURN student_count;
+END;
+$$;
