@@ -20,6 +20,3 @@ JOIN rooms room
     ON schedule.room_id = room.id
 JOIN lessons_schedule lesson
     ON schedule.lesson_schedule_id = lesson.id;
-
--- To check performance, run separately, not inside CREATE VIEW:
--- EXPLAIN ANALYZE SELECT * FROM schedules;
